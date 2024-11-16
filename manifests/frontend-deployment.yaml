@@ -20,6 +20,7 @@ spec:
     metadata:
       labels:
         role: frontend
+        app: frontend  # Add this label
     spec:
       containers:
       - name: frontend
@@ -27,7 +28,15 @@ spec:
         imagePullPolicy: Always
         env:
           - name: REACT_APP_APIHOSTPORT
-            value: $API_ELB_PUBLIC_FQDN #add your API_Load_Balancer DNS manually here if app does not run
+            value: $API_ELB_PUBLIC_FQDN  
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+
         ports:
         - containerPort: 8080
         livenessProbe:
@@ -43,3 +52,4 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
           successThreshold: 1
+
